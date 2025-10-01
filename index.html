@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bike Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans">
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center p-4 border-b border-gray-800 fade-in">
+    <div class="text-xl font-bold">BikeTrack</div>
+    <ul class="flex gap-6 text-sm">
+      <li><a href="index.html" class="hover:text-gray-400">Dashboard</a></li>
+      <li><a href="details.html" class="hover:text-gray-400">Add Bike</a></li>
+       <li><a href="bike_list.html" class="hover:text-gray-400">View Bikes</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="text-center py-12 fade-in">
+    <h1 class="text-4xl font-bold mb-4">Bike Service Tracker</h1>
+    <p class="text-lg text-gray-400">Monitor your bike's health and service dates</p>
+  </section>
+
+  <!-- Table Section -->
+  <section class="max-w-5xl mx-auto py-10 px-6 fade-in">
+    <h2 class="text-2xl font-bold mb-4">Service Schedule</h2>
+    <div class="bg-gray-900 p-6 rounded-xl shadow-xl">
+      <table class="w-full text-left text-gray-300">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="py-2">Bike Name</th>
+            <th class="py-2">Last Service</th>
+            <th class="py-2">Next Service</th>
+          </tr>
+        </thead>
+        <tbody id="bikeTableBody">
+          <!-- Dynamic rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Description Section -->
+  <section class="max-w-5xl mx-auto py-10 px-6 fade-in">
+    <h2 class="text-3xl font-bold mb-4 text-center">What is Bike Service Tracker?</h2>
+    <div class="bg-gray-900 p-6 rounded-xl shadow-xl text-gray-300 text-lg">
+      The <span class="text-white font-semibold">Bike Service Tracker</span> is a streamlined web application designed to help users manage and monitor the maintenance schedules of their bikes. Whether you're a casual rider or a bike enthusiast, this tool ensures your vehicle stays in peak condition by keeping track of:
+      <ul class="list-disc list-inside mt-4 space-y-2">
+        <li><span class="text-white font-semibold">Bike Details</span> – Model name, year of manufacture, and personalized descriptions.</li>
+        <li><span class="text-white font-semibold">Service History</span> – Last service date and upcoming service reminders.</li>
+        <li><span class="text-white font-semibold">User-Friendly Interface</span> – Clean, responsive form inputs and dashboard views.</li>
+        <li><span class="text-white font-semibold">Dark Mode Aesthetic</span> – Tailwind-powered styling with smooth fade-in animations.</li>
+        <li><span class="text-white font-semibold">Local Storage Integration</span> – Saves entries directly in your browser for quick access.</li>
+      </ul>
+      <p class="mt-4">This tracker is ideal for individuals managing multiple bikes or small workshops looking for a lightweight digital log. It’s built with modularity in mind, making it easy to expand with features like notifications, cloud sync, or service center integration.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-sm text-gray-500 text-center py-8 border-t border-gray-800">
+    © 2025 BikeTrack. All rights reserved.<br>
+    <span class="block mt-2 text-white">Contact: +91 73394 59071 | vivekanandhan282@gmail.com</span>
+  </footer>
+
+  <script>
+    // Fade-in animation on scroll
+    function revealOnScroll() {
+      document.querySelectorAll('.fade-in').forEach(function(el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('DOMContentLoaded', revealOnScroll);
+
+    // Load bike data from localStorage
+    const bikes = JSON.parse(localStorage.getItem("bikes")) || [];
+    const tableBody = document.getElementById("bikeTableBody");
+    bikes.forEach(bike => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="py-2">${bike.name}</td>
+        <td class="py-2">${bike.lastService}</td>
+        <td class="py-2">${bike.nextService}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  </script>
+</body>
+</html>
